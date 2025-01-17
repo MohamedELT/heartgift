@@ -14,22 +14,10 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.2);
     }
-    .animated-text {
-      position: absolute;
-      top: 10%; /* Positioned at the top of the page */
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: Arial, sans-serif;
-      font-size: 60px;
-      color: lightblue;
-      text-align: center;
-      opacity: 0;
-    }
   </style>
 </head>
 <body>
   <canvas id="heart"></canvas>
-  <div class="animated-text" id="animatedText">I love you Mego</div>
   <script>
     window.requestAnimationFrame =
       window.__requestAnimationFrame ||
@@ -67,6 +55,13 @@
 
       ctx.fillStyle = "rgba(0,0,0,1)";
       ctx.fillRect(0, 0, width, height);
+
+      var drawText = function () {
+        ctx.font = "60px Arial"; 
+        ctx.fillStyle = "lightblue";
+        ctx.textAlign = "center";
+        ctx.fillText("", width / 2, height / 2.2 + 400); 
+      };
 
       var heartPosition = function (rad) {
         return [
@@ -133,9 +128,6 @@
       var config = { traceK: 0.4, timeDelta: 0.6 };
       var time = 0;
 
-      var textElement = document.getElementById('animatedText');
-      var textOpacity = 0;
-
       var loop = function () {
         var n = -Math.cos(time);
         pulse((1 + n) * 0.5, (1 + n) * 0.5);
@@ -179,11 +171,7 @@
           u.trace.forEach((t) => ctx.fillRect(t.x, t.y, 1, 1));
         }
 
-        if (textOpacity < 1) {
-          textOpacity += 0.01;
-          textElement.style.opacity = textOpacity;
-        }
-
+        drawText();
         window.requestAnimationFrame(loop, canvas);
       };
 
